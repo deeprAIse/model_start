@@ -4,7 +4,6 @@
 # @Contact: dongkz@outlook.com
 # @File : qwen25_api.py
 
-import torch
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -19,10 +18,12 @@ model_name = r"E:\modelStore\Qwen25-15b-instruct"
 model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype="auto", device_map="auto")
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
+
 # 定义请求格式
 class ChatRequest(BaseModel):
     model: str
     messages: list
+
 
 # 定义响应格式
 class ChatResponse(BaseModel):
@@ -31,6 +32,7 @@ class ChatResponse(BaseModel):
     created: int
     model: str
     choices: list
+
 
 @app.post("/v1/chat/completions", response_model=ChatResponse)
 async def create_completion(request: ChatRequest):
@@ -41,7 +43,8 @@ async def create_completion(request: ChatRequest):
     # 准备对话模板
     messages = request.messages
     prompt = messages[-1]["content"]  # 假设最后一个消息是用户输入
-    system_prompt = {"role": "system", "content": "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."}
+    system_prompt = {"role": "system",
+                     "content": "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."}
     chat_messages = [system_prompt] + messages
 
     # 将消息转化为模型输入
@@ -50,7 +53,8 @@ async def create_completion(request: ChatRequest):
 
     # 生成回复
     generated_ids = model.generate(**model_inputs, max_new_tokens=512)
-    generated_ids = [output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)]
+    generated_ids = [output_ids[len(input_ids):] for input_ids, output_ids in
+                     zip(model_inputs.input_ids, generated_ids)]
 
     # 解码生成的回复
     response_text = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
@@ -73,7 +77,9 @@ async def create_completion(request: ChatRequest):
         ]
     )
 
+
 # 启动 FastAPI
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)

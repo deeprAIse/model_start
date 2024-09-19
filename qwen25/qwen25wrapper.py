@@ -6,7 +6,6 @@
 import requests
 from langchain.llms.base import LLM
 from typing import Optional, List
-from pydantic import BaseModel
 
 
 # 自定义 LangChain LLM 类

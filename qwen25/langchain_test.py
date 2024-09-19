@@ -3,7 +3,6 @@
 # @Author : dk
 # @Contact: dongkz@outlook.com
 # @File : langchain_test.py
-from langchain.schema import LLMResult
 from qwen25wrapper import QwenLLM
 
 # 初始化自定义 LLM 类

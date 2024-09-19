@@ -2,7 +2,7 @@
 # @Time : 2024/9/19 18:47 
 # @Author : dk
 # @Contact: dongkz@outlook.com
-# @File : qwen25.py
+# @File : qwen25_official.py
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 model_name = r"E:\modelStore\Qwen25-15b-instruct"
