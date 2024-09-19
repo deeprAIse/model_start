@@ -34,4 +34,5 @@ if __name__ == '__main__':
 ## 采用的版本
 
 * python==3.8-3.10
-* transformers==4.44.0
+* transformers==4.40.0
+
